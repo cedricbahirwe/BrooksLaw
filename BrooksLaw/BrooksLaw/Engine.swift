@@ -56,7 +56,7 @@ struct Engine {
     }
 
     mutating func decreasePeople() {
-        guard people != 0 else { return }
+        guard people != 1 else { return }
         people -= 1
         getPositions()
     }

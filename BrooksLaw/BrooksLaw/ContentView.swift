@@ -37,8 +37,7 @@ struct ContentView: View {
                     }
                 }
                 .frame(width: engine.width, height: engine.height)
-                .animation(.interpolatingSpring(stiffness: 50, damping: 2), value: engine.people)
-//                .animation(.interpolatingSpring(stiffness: <#T##Double#>, damping: <#T##Double#>), value: engine.people)
+                .animation(.spring(), value: engine.people)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 VStack {
