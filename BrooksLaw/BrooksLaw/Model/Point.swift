@@ -7,15 +7,21 @@
 
 import SwiftUI
 
-struct Point: Identifiable {
+struct Point: Hashable {
     var id: String { position.debugDescription }
 
-    let position: CGPoint
+    var position: CGPoint {
+        CGPoint(x: x, y: y)
+    }
+
+    let x: CGFloat
+    let y: CGFloat
 
     let color: Color
 
     init(_ position: CGPoint, _ color: Color) {
-        self.position = position
+        self.x = position.x
+        self.y = position.y
         self.color = color
     }
 }

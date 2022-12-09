@@ -29,7 +29,6 @@ struct Engine {
         getPositions()
     }
 
-
     /// Determine the number of `points` based on available people
     mutating func getPositions() {
         var points: [Point] = []
@@ -40,16 +39,20 @@ struct Engine {
             currentDegree = currentDegree + degreePerPerson
             let nextPoint = getNextPoint(angle: currentDegree)
             points.append(nextPoint)
-            debugs.append(.init(nextPoint))
+            debugs.append(.init(debugs.count+1, nextPoint))
         }
+
         self.points = points
-        self.lines = getChannels(self.points)
+        let channels = getChannels(self.points)
+        self.lines = channels
     }
 
     mutating func increasePeople() {
         guard people != 360 else { return }
         people += 1
-        getPositions()
+        withAnimation(.spring()) {
+            getPositions()
+        }
     }
 
     mutating func decreasePeople() {
@@ -126,9 +129,9 @@ extension Engine {
         var x: CGFloat { point.x }
         var y: CGFloat { point.y }
 
-        init( _ point: Point) {
-            Engine.Debug.counter += 1
-            self.id = Engine.Debug.counter
+        init(_ index: Int, _ point: Point) {
+//            Engine.Debug.counter += 1
+            self.id = index//Engine.Debug.counter
             self.point = point.position
         }
     }

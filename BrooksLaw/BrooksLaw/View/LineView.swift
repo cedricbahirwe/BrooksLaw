@@ -14,6 +14,7 @@ struct LineView: View {
             path.move(to: line.origin)
             path.addLine(to: line.destination)
         }
-        .stroke(Color("strokeColor"), lineWidth: line.width)
+//        .stroke(Color("strokeColor"), lineWidth: line.width)
+        .stroke(line.color, lineWidth: 2) // Uncomment this line for dynamic coloring
     }
 }

@@ -19,22 +19,26 @@ struct ContentView: View {
                 Text("\(engine.people) People = \(engine.lines.count) Line\(engine.lines.count <= 1 ? "" : "s")")
                     .font(.system(.title, design: .rounded, weight: .bold))
                     .foregroundColor(.white)
+                    .padding(.top)
 
                 ZStack {
                     ForEach(engine.lines, id:\.self) {
                         LineView(line: $0)
                     }
 
-                    ForEach(engine.points) { point in
+                    ForEach(0..<engine.points.count, id: \.self) { i in
+                        let point = engine.points[i]
                         Circle()
-                            .stroke(Color("strokeColor"), lineWidth: 2)
+                            .stroke(point.color, lineWidth: 2) // Uncomment this line for dynamic coloring
+//                            .stroke(Color("strokeColor"), lineWidth: 2)
                             .background(Color("backgroundColor"))
                             .frame(width: item, height: item)
-                            .position(point.position)
+                            .position(x: point.x, y: point.y)
                     }
                 }
                 .frame(width: engine.width, height: engine.height)
-                .animation(.spring(), value: engine.people)
+                .animation(.interpolatingSpring(stiffness: 50, damping: 2), value: engine.people)
+//                .animation(.interpolatingSpring(stiffness: <#T##Double#>, damping: <#T##Double#>), value: engine.people)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 VStack {
@@ -57,17 +61,15 @@ struct ContentView: View {
                         }
 
                     }
-                    
                     ScrollView {
                         VStack(alignment: .leading, spacing: 4) {
                             ForEach(engine.debugs) {
-                                Text("Point \($0.id) : X \($0.x, specifier: "%0.2f") and Y: \($0.y, specifier: "%0.2f")")
+                                Text("Point \($0.id) - X: \($0.x, specifier: "%0.2f") and Y: \($0.y, specifier: "%0.2f")")
                                 Divider()
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .lineLimit(1)
                             .foregroundColor(.secondary)
-
                         }
                     }
                 }
@@ -77,7 +79,8 @@ struct ContentView: View {
                 .cornerRadius(10)
                 .padding()
             }
-        }    }
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
